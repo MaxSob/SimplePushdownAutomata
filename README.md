@@ -1,5 +1,5 @@
 # SimplePushdownAutomata
-A simple implementation of a pushdown automata to recognize context free grammars. Let's build a simple example recognizing the language - <img src="https://latex.codecogs.com/gif.latex?O^n1^n" /> 
+A simple implementation of a pushdown automata to recognize context free grammars. Let's build a simple example recognizing the language: <img src="https://latex.codecogs.com/gif.latex?O^n1^n" /> 
 
 ## Automata definition 
 To define the automata we need to define the sets of states, input alphabet, stack alphabet, final states and transition rules
