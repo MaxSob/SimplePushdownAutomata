@@ -1,5 +1,5 @@
 # SimplePushdownAutomata
-A simple implementation of a pushdown automata to recognize context free grammars
+A simple implementation of a pushdown automata to recognize context free grammars. Let's build a simple example recognizing the language - <img src="https://latex.codecogs.com/gif.latex?O^n1^n" /> 
 
 ## Automata definition 
 To define the automata we need to define the sets of states, input alphabet, stack alphabet, final states and transition rules
@@ -22,7 +22,7 @@ a.addRule('q3','q3','1', '0', 'epsilon')
 a.addRule('q3','q4','epsilon', '$', 'epsilon')
 ```
 
-##Word processing
+## Word processing
 To process a string you cak use the `processInput` method of the automata which returns the transitions used to accept the input string
 ```python
 accepted_paths = a.processInput('0000011111')
