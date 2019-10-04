@@ -38,29 +38,55 @@ class PushdownAutomata:
             self.delta[current_state] = [rule]
         
     def processInput(self, input_string):
+        chars = 1
         print(self.paths)
         for char in input_string:
             print("*" * 30)
-            print("Processing " + char)
+            print("Processing char " + str(chars) + " : " + char)
             new_paths = []
             for p in self.paths:
                 cp = p[-1]
                 print(cp[1], cp[2], char)
                 next_paths = self.moveAutomata(cp[1], cp[2], char)
+                pending_process = []
                 for n in next_paths:
-                    new_paths.append(p + [n])
+                    #print(n)
+                    #Epsilon input
+                    if not n[3]:
+                        pending_process.append([n])
+                    else:
+                        new_paths.append(p + [n])
+                while len(pending_process) > 0:
+                    #print(pending_process)
+                    ap = pending_process.pop()
+                    pn = ap[-1]
+                    other_paths = self.moveAutomata(pn[1], pn[2], char)
+                    for n in other_paths:
+                        if not n[3]:
+                            pending_process.append([pn, n])
+                        else:
+                            new_paths.append(p + [pn , n])
+            chars += 1
             self.paths = new_paths
-            
+        
+        for p in self.paths:
+            if len(p[-1][2]) > 0:
+                next_moves = self.moveAutomata(p[-1][1], p[-1][2], "epsilon")
+                for m in next_moves:
+                    p.append(m)
+                    
         for p in self.paths:
             if p[-1][1] in self.f:
                 self.accepted.append(p)
+                    
         return self.accepted
             
     def moveAutomata(self, current_state, current_stack, char):
-        candidates = []
-        current_rules = self.delta[current_state]
+        transitions = []
+        current_rules = self.delta[current_state] if current_state in self.delta.keys() else []
         stack_symbol = current_stack.pop() if len(current_stack) > 0 else None
         for r in current_rules:
+            processed = True
             input_accepted = r.input == 'epsilon' or r.input == char
             stack_accepted = r.stack == 'epsilon' or r.stack == stack_symbol
             if input_accepted and stack_accepted:
@@ -70,31 +96,15 @@ class PushdownAutomata:
                 stack_copy = current_stack
                 if r.push != "epsilon":
                     stack_copy.append(r.push)
-                candidates.append((r, r.n_state, stack_copy))
-        return candidates
-
-#Automata definition
-q = ['q1','q2','q3','q4']
-sigma = ['0','1']
-gamma = ['0',"$"]
-delta = {}
-f = ['q1','q4']
-
-#Rule definition
-a = PushdownAutomata(q, sigma, gamma, delta, 'q1', f)
-a.addRule('q1','q2','epsilon','epsilon','$')
-a.addRule('q2','q2','0', 'epsilon', '0')
-a.addRule('q2','q3','1', '0', 'epsilon')
-a.addRule('q3','q3','1', '0', 'epsilon')
-a.addRule('q3','q4','epsilon', '$', 'epsilon')
-
-#Process a String
-accepted_paths = a.processInput('0000011111')
-
-#Print accepted paths
-i = 1
-for p in accepted_paths:
-    print("Printing path: " + str(i))
-    for t in p:
-        print(t[0])
-    i += 1
+                if r.input == "epsilon":
+                    processed = False
+                transitions.append((r, r.n_state, stack_copy, processed))
+        return transitions
+    
+    def printPaths(self, paths):
+        i = 1
+        for p in paths:
+            print("Printing path: " + str(i))
+            for t in p:
+                print(t[0])
+        i += 1
