@@ -35,4 +35,3 @@ for p in accepted_paths:
         print(t[0])
     i += 1
 ```
-

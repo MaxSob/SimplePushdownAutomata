@@ -16,11 +16,10 @@ class PushdownAutomataRule:
     
     def __str__(self):
         return self.c_state + ": (" + self.input + "," + self.stack + ")-->" + self.push + " : " + self.n_state 
-    
-    
+
 class PushdownAutomata:
     
-    def __init__(self, q, sigma, gamma, delta, q0, f, stack=[]):
+    def __init__(self, q, sigma, gamma, delta, q0, f):
         self.q = q
         self.sigma = sigma
         self.gamma = gamma
@@ -100,7 +99,7 @@ class PushdownAutomata:
                     processed = False
                 transitions.append((r, r.n_state, stack_copy, processed))
         return transitions
-    
+
     def printPaths(self, paths):
         i = 1
         for p in paths:
