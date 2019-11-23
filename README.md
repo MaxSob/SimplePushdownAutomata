@@ -1,3 +1,4 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/98bf4ba865da4ad29ca30ca61ed60016)](https://www.codacy.com/manual/MaxSob/SimplePushdownAutomata?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=MaxSob/SimplePushdownAutomata&amp;utm_campaign=Badge_Grade)
 # SimplePushdownAutomata
 A simple implementation of a pushdown automata to recognize context free grammars. Let's build a simple example recognizing the language: <img src="https://latex.codecogs.com/gif.latex?O^n1^n" /> 
 

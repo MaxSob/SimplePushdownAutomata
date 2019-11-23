@@ -6,19 +6,19 @@ Created on Fri Sep 27 19:48:15 2019
 @author: mcampos
 """
 class PushdownAutomataRule:
-    
+
     def __init__(self, current_state, next_state, input_string, stack_string, push):
         self.c_state = current_state
         self.n_state = next_state
         self.input = input_string
         self.stack = stack_string
         self.push = push
-    
+
     def __str__(self):
-        return self.c_state + ": (" + self.input + "," + self.stack + ")-->" + self.push + " : " + self.n_state 
+        return self.c_state + ": (" + self.input + "," + self.stack + ")-->" + self.push + " : " + self.n_state
 
 class PushdownAutomata:
-    
+
     def __init__(self, q, sigma, gamma, delta, q0, f):
         self.q = q
         self.sigma = sigma
@@ -79,7 +79,7 @@ class PushdownAutomata:
                 self.accepted.append(p)
                     
         return self.accepted
-            
+       
     def moveAutomata(self, current_state, current_stack, char):
         transitions = []
         current_rules = self.delta[current_state] if current_state in self.delta.keys() else []
@@ -100,8 +100,9 @@ class PushdownAutomata:
                 transitions.append((r, r.n_state, stack_copy, processed))
         return transitions
 
-    def printPaths(self, paths):
+    def printPaths(self, paths = None):
         i = 1
+        paths = paths if paths is not None else self.paths
         for p in paths:
             print("Printing path: " + str(i))
             for t in p:
